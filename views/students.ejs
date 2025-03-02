@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --text-dark: #2b2d42;
+            --text-light: #8d99ae;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --border: #e9ecef;
+            --danger: #e63946;
+            --success: #1b9e77;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 24px;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 28px;
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 10px;
+        }
+        
+        .search-container {
+            margin-bottom: 24px;
+            background-color: var(--white);
+            padding: 16px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+        
+        #searchForm {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        select, input, button {
+            padding: 10px 14px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            font-size: 14px;
+        }
+        
+        select {
+            background-color: var(--white);
+            min-width: 140px;
+        }
+        
+        input {
+            flex-grow: 1;
+            min-width: 200px;
+        }
+        
+        button {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-weight: 500;
+        }
+        
+        button:hover {
+            background-color: var(--secondary);
+        }
+        
+        #resetBtn {
+            background-color: var(--text-light);
+        }
+        
+        #resetBtn:hover {
+            background-color: var(--text-dark);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: var(--white);
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--bg-light);
+        }
+        
+        tr:hover {
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .empty-message {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            h2 {
+                font-size: 24px;
+            }
+            
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='/add'" >ADD STUDENT</button>
+        <h2>Student Information System</h2>
+       
+        <div class="search-container">
+            
+            <form id="searchForm">
+                <select name="filterBy" id="filterBy">
+                    <option value="firstName" <% if(filterBy === "firstName") { %>selected<% } %>>First Name</option>
+                    <option value="lastName" <% if(filterBy === "lastName") { %>selected<% } %>>Last Name</option>
+                    <option value="Cast" <% if(filterBy === "Cast") { %>selected<% } %>>Cast</option>
+                    <option value="std" <% if(filterBy === "std") { %>selected<% } %>>Standard</option>
+                    <option value="Religion" <% if(filterBy === "Religion") { %>selected<% } %>>Religion</option>
+                    <option value="year" <% if(filterBy === "year") { %>selected<% } %>>Year</option>
+                </select>
+                <input type="text" name="search" id="searchInput" placeholder="Search students..." value="<%= search || '' %>">
+                <button type="submit">Search</button>
+                <button type="button" id="resetBtn">Reset</button>
+            </form>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Father's Name</th>
+                        <th>Mother's Name</th>
+                        <th>Standard</th>
+                        <th>GR No</th>
+                        <th>Date of Birth</th>
+                        <th>Caste</th>
+                        <th>Religion</th>
+                        <th>Year</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(alldbuser.length > 0) { %>
+                        <% alldbuser.forEach(user => { %>
+                            <tr>
+                                <td><%= user.firstName %></td>
+                                <td><%= user.lastName %></td>
+                                <td><%= user.fatherName %></td>
+                                <td><%= user.motherName %></td>
+                                <td><%= user.std %></td>
+                                <td><%= user.grNo %></td>
+                                <td><%= user.dob %></td>
+                                <td><%= user.Cast %></td>
+                                <td><%= user.Religion %></td>
+                                <td><%= user.year %></td>
+                                <td>
+                                    <button onclick="editStudent('<%= user._id %>')">Edit</button>
+                                    <button onclick="deleteStudent('<%= user._id %>')">Delete</button>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="10" class="empty-message">No students found matching your search criteria.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById("resetBtn").addEventListener("click", function () {
+            window.location.href = "/student"; // Reset search
+        });
+        
+        // Enhance user experience with active search indication
+        const searchInput = document.getElementById("searchInput");
+        if (searchInput.value) {
+            searchInput.style.borderColor = "#4361ee";
+            searchInput.style.boxShadow = "0 0 0 3px rgba(67, 97, 238, 0.2)";
+        }
+        
+        // Add animation for search results
+        document.addEventListener("DOMContentLoaded", function() {
+            const rows = document.querySelectorAll("tbody tr");
+            rows.forEach((row, index) => {
+                row.style.animation = `fadeIn 0.3s ease-in-out ${index * 0.05}s forwards`;
+            });
+        });
+
+        async function deleteStudent(studentId) {
+        if (!confirm("Are you sure you want to delete this student?")) return;
+        
+        try {
+            const response = await fetch(`/student/delete/${studentId}`, { method: "DELETE" });
+            if (response.ok) {
+                alert("Student deleted successfully!");
+                location.reload(); // Refresh page after deletion
+            } else {
+                alert("Failed to delete student.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred.");
+        }
+    }
+
+    function editStudent(studentId) {
+        window.location.href = `/student/edit/${studentId}`; // Redirect to edit page
+    }
+
+    </script>
+</body>
+</html>

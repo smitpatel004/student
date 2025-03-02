@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Student</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --text-dark: #2b2d42;
+            --text-light: #8d99ae;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --border: #e9ecef;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --error: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 28px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        .form-header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .form-title {
+            font-size: 16px;
+            color: var(--text-light);
+            margin-top: -15px;
+            margin-bottom: 25px;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+        
+        .form-group {
+            flex: 1 0 calc(50% - 20px);
+            margin: 0 10px 20px;
+            min-width: 200px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background-color: var(--white);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--warning);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: #e67e22;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background-color: var(--text-light);
+            color: var(--white);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--text-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .update-notice {
+            background-color: rgba(243, 156, 18, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 12px 15px;
+            margin-bottom: 25px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .update-notice p {
+            color: #7d5a00;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .form-group {
+                flex: 1 0 100%;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1>Update Student</h1>
+            <p class="form-title">Modify existing student information</p>
+        </div>
+        
+        <div class="update-notice">
+            <p><strong>Note:</strong> You are updating information for student with GR No: <%= student.grNo %>.</p>
+        </div>
+        
+        <form action="/student/update/<%= student._id %>" method="POST">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" class="form-control" value="<%= student.firstName %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" class="form-control" value="<%= student.lastName %>" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="fatherName">Father's Name</label>
+                    <input type="text" id="fatherName" name="fatherName" class="form-control" value="<%= student.fatherName %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="motherName">Mother's Name</label>
+                    <input type="text" id="motherName" name="motherName" class="form-control" value="<%= student.motherName %>" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="std">Standard</label>
+                    <input type="text" id="std" name="std" class="form-control" value="<%= student.std %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="grNo">GR Number</label>
+                    <input type="text" id="grNo" name="grNo" class="form-control" value="<%= student.grNo %>" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" name="dob" class="form-control" value="<%= student.dob.toISOString().split('T')[0] %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="Cast">Cast</label>
+                    <input type="text" id="Cast" name="Cast" class="form-control" value="<%= student.Cast %>" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="Religion">Religion</label>
+                    <input type="text" id="Religion" name="Religion" class="form-control" value="<%= student.Religion %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="year">Year</label>
+                    <input type="text" id="year" name="year" class="form-control" value="<%= student.year %>" required>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Update Student</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/student'">Cancel</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        // Track changes to highlight modified fields
+        const originalValues = {};
+        
+        document.querySelectorAll('.form-control').forEach(input => {
+            originalValues[input.name] = input.value;
+            
+            input.addEventListener('input', function() {
+                if (this.value !== originalValues[this.name]) {
+                    this.style.backgroundColor = 'rgba(243, 156, 18, 0.1)';
+                    this.style.borderColor = 'var(--warning)';
+                } else {
+                    this.style.backgroundColor = 'var(--white)';
+                    this.style.borderColor = 'var(--border)';
+                }
+            });
+            
+            input.addEventListener('focus', function() {
+                this.style.borderColor = 'var(--primary)';
+            });
+            
+            input.addEventListener('blur', function() {
+                if (this.value !== originalValues[this.name]) {
+                    this.style.borderColor = 'var(--warning)';
+                } else {
+                    this.style.borderColor = 'var(--border)';
+                }
+            });
+        });
+        
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const inputs = document.querySelectorAll('.form-control[required]');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.style.borderColor = 'var(--error)';
+                    isValid = false;
+                }
+            });
+            
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill all required fields');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .search-container {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Student List</h2>
+
+    <div class="search-container">
+        <form id="searchForm">
+            <select name="filterBy" id="filterBy">
+                <option value="firstName" <% if(filterBy === "firstName") { %>selected<% } %>>First Name</option>
+                <option value="lastName" <% if(filterBy === "lastName") { %>selected<% } %>>Last Name</option>
+                <option value="Cast" <% if(filterBy === "Cast") { %>selected<% } %>>Cast</option>
+            </select>
+            <input type="text" name="search" id="searchInput" placeholder="Search..." value="<%= search || '' %>">
+            <button type="submit">Search</button>
+            <button type="button" id="resetBtn">Reset</button>
+        </form>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Father's Name</th>
+                <th>Mother's Name</th>
+                <th>Standard</th>
+                <th>GR No</th>
+                <th>Date of Birth</th>
+                <th>Cast</th>
+                <th>Religion</th>
+                <th>Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if(alldbuser.length > 0) { %>
+                <% alldbuser.forEach(user => { %>
+                    <tr>
+                        <td><%= user.firstName %></td>
+                        <td><%= user.lastName %></td>
+                        <td><%= user.fatherName %></td>
+                        <td><%= user.motherName %></td>
+                        <td><%= user.std %></td>
+                        <td><%= user.grNo %></td>
+                        <td><%= user.dob %></td>
+                        <td><%= user.Cast %></td>
+                        <td><%= user.Religion %></td>
+                        <td><%= user.year %></td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="10" style="text-align: center;">No results found.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+
+    <script>
+        document.getElementById("resetBtn").addEventListener("click", function () {
+            window.location.href = "/student"; // Reset search
+        });
+    </script>
+</body>
+</html>
